@@ -76,3 +76,35 @@ $ mosquitto_pub -h 192.168.18.3 -t "ch15/Cortina/set" -m '{"position": 0}'
 $ mosquitto_pub -h 192.168.18.3 -t "ch15/0xa4c138702cbbba31/set" -m '{"brightness": 50, "state": "ON"}'
 $ mosquitto_pub -h 192.168.18.3 -t "ch15/0xa4c138702cbbba31/set" -m '{"state": "OFF"}'
 ```
+
+# Suscribirse a un topic
+```
+$ mosquitto_sub -h <servidor_mqtt> -t <topic>
+```
+```
+$ mosquitto_sub -h 192.168.18.3 -t "ch15/0xa4c138702cbbba31/#"
+```
+# Comodines en MQTT:
+
+Los comodines **solo** se pueden usar en filtros de tópicos para suscriptores.
+
+### Comodín de un solo nivel: + 
+
+Debe ocupar un nivel completo, es decir, debe estar rodeado por barras / (o ser el único nivel).
+
+Ejemplo:
+
+Suscripcion a todos los comandos set de dispositivos directamente bajo ch15/, como ch15/lampara1/set o ch15/cortina/set:
+```
+ch15/+/set: 
+```
+### Comodín de múltiples niveles: \# 
+
+Debe ser el último carácter en el filtro del tópico y siempre debe ir precedido de una barra /.
+
+Ejemplo:
+Suscripcion a todos los tópicos que comiencen con casa/:
+```
+casa/#
+```
+Si te suscribes solo a almohadilla, recibirás absolutamente todos los mensajes que pasan por el broker MQTT
